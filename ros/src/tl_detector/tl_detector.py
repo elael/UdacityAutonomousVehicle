@@ -94,7 +94,7 @@ class TLDetector(object):
             self.upcoming_red_light_pub.publish(Int32(self.last_wp))
         self.state_count += 1
 
-    def get_closest_waypoint(self, x,y):
+    def get_closest_waypoint(self, pose):
         """Identifies the closest path waypoint to the given position
             https://en.wikipedia.org/wiki/Closest_pair_of_points_problem
         Args:
@@ -105,7 +105,6 @@ class TLDetector(object):
 
         """
         return self.waypoint_tree.query(pose, 1)[1]
-        return closest_idx
 
     def get_light_state(self, light):
         """Determines the current color of the traffic light
@@ -124,10 +123,10 @@ class TLDetector(object):
             self.prev_light_loc = None
             return False
 
-        #cv_image = self.bridge.imgmsg_to_cv2(self.camera_image, "bgr8")
+        cv_image = self.bridge.imgmsg_to_cv2(self.camera_image, "bgr8")
 
         # Get classification
-        #return self.light_classifier.get_classification(cv_image)
+        return self.light_classifier.get_classification(cv_image)
 
     def process_traffic_lights(self):
         """Finds closest visible traffic light, if one exists, and determines its
@@ -140,7 +139,6 @@ class TLDetector(object):
         """
         closest_light = None
         line_wp_idx = None
-        
         # List of positions that correspond to the line to stop in front of for a given intersection
         stop_line_positions = self.config['stop_line_positions ']
         if self.pose:
@@ -160,7 +158,6 @@ class TLDetector(object):
         if closest_light:
             state = self.get_light_state(closest_light)
             return line_wp_idx, state
-        if closest_light:
         return -1, TrafficLight.UNKNOWN
 
 
