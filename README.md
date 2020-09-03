@@ -1,3 +1,21 @@
+# Carla Self-Driving Car Development
+
+#### Team Composition
+| Eduardo Elael    | elael2@gmail.com          |
+|------------------|---------------------------|
+| Kunal Luharuwala | kunalluharuwala@gmail.com |
+| Ramesh S         | ramesh.panruti@gmail.com  |
+| Manish S         | mkshriva@gmail.com        |
+| Chunan H         | chunanhuangkk@gmail.com   |
+
+#### Development
+
+The main challenge for this project was the "traffic light detection" we experimented with different approaches before settling.
+ - **Yolov3**: We trained Yolov3 with Bosch Small Traffic Lights Dataset, but even though we achieved high accuracy on the real images, it was falling very frequently within the simulation.
+ - **SSD**: We used manually collected data from the simulator to train an SSD network. At this point, we succeeded in inferring the traffic lights, but the neural network was taking too long to process the images.  The delay and some miss classifications were making it hard for the car to stop correctly.
+ - **SqueezeNet**: We finally decided to experiment on directly classifying the images from the camera, as its position should mainly contain traffic lights. To help to improve the image processing, we scaled them down as a preprocessing step and selected a small network called SqueezeNet. We used the traffic_light topic as ground truth when collecting data, but set any traffic light state as unknown whenever it was too far.
+
+-----
 This is the project repo for the final project of the Udacity Self-Driving Car Nanodegree: Programming a Real Self-Driving Car. For more information about the project, see the project introduction [here](https://classroom.udacity.com/nanodegrees/nd013/parts/6047fe34-d93c-4f50-8336-b70ef10cb4b2/modules/e1a23b06-329a-4684-a717-ad476f0d8dff/lessons/462c933d-9f24-42d3-8bdc-a08a5fc866e4/concepts/5ab4b122-83e6-436d-850f-9f4d26627fd9).
 
 Please use **one** of the two installation options, either native **or** docker installation.
